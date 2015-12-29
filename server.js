@@ -187,9 +187,21 @@ var SampleApp = function()
     self.initializeServer = function() {
         self.createRoutes();
         self.app = express();
+
         var path = require('path')
 
-       self.app.use(express.static(path.join(__dirname, 'public')));
+        self.app.use(express.static(path.join(__dirname, 'public')));
+
+        self.app.disable('x-powered-by');
+
+        self.app.use(function (req, res, next) {
+                res.setHeader('Access-Control-Allow-Origin', "http://"+req.headers.host+':8000');
+
+                res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+                res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+                next();
+            }
+        );
 
         self.server = require('http').createServer(self.app);
         self.io = require("socket.io").listen(self.server,{log:false, origins:'*:*'});
