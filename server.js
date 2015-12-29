@@ -214,7 +214,7 @@ var SampleApp = function()
 
        // var express = require('express');
        // var app = express();
-        self.server = require('http').Server(self.app);
+        self.server = require('http').createServer(self.app);
         self.io = require('socket.io').listen(self.server);
         self.server.listen(process.env.OPENSHIFT_NODEJS_PORT, process.env.OPENSHIFT_NODEJS_IP);
 
