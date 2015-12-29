@@ -144,7 +144,7 @@ var SampleApp = function()
                         etatbatterie : req.params.etatbatterie,
                     }
                     
-                    io.sockets.emit('message', JSON.stringify(newCourrier));
+                     self.io.sockets.emit('message', JSON.stringify(newCourrier));
 
                      res.send("bonjour client n°"+newCourrier.id+" il a été detecté un poid de "+newCourrier.poid+"g, pourinformation votre boitier a une charge de "+newCourrier.etatbatterie+"%");
                 }else{
@@ -189,12 +189,20 @@ var SampleApp = function()
         self.createRoutes();
         self.app = express();
         var path = require('path')
-     //   io = require('socket.io').listen(self.app);
+      //  var server = http.createServer(app);
+      //   io = require('socket.io').listen(server);  //pass a http.Server instance
+     //   server.listen(8085); 
 
-        var server = http.createServer(app);
-         io = require('socket.io').listen(server);  //pass a http.Server instance
-        server.listen(8085); 
-        //  Add handlers for the app (from the routes).
+
+
+     //   self.app = express();
+        self.server = require('http').createServer(self.app);
+        self.io = require("socket.io").listen(8085);
+        // = io.listen(self.server);
+      /*  self.io.configure(function(){
+            self.io.set("transports", ["websocket"]);
+        }); */
+
         self.app.use(express.static(path.join(__dirname, 'public')));
 
         for (var r in self.routes)
@@ -202,13 +210,13 @@ var SampleApp = function()
             self.app.get(r, self.routes[r]);
         }
 
-        /*
+
 
         var allClients = 0;
         var clientId = 1;
 
 
-         io.sockets.on('connection', function (client) {
+         self.io.sockets.on('connection', function (client) {
             var my_timer;
             var my_client = {
                 "id": clientId,
@@ -227,10 +235,10 @@ var SampleApp = function()
                         etatbatterie : Math.floor((Math.random() * 100) + 1),
                     }
                     
-                    io.sockets.emit('message', JSON.stringify(newCourrier));
+                    self.io.sockets.emit('message', JSON.stringify(newCourrier));
 
             }, 10);
-    */
+
         
             /*
             client.on('message', function(data) {
