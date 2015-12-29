@@ -194,7 +194,7 @@ var SampleApp = function()
         self.server = require('http').createServer(self.app);
         self.io = require("socket.io").listen(self.server,{log:false, origins:'*:*'});
         
-        //self.io.set('match origin protocol', false);
+        self.io.set('match origin protocol', true);
 
        //self.server.listen(8000);
 
