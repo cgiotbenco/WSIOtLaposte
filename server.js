@@ -206,9 +206,8 @@ var SampleApp = function()
 
      //   self.app = express();
         self.server = require('http').createServer(self.app);
-       // self.io = require('socket.io')(self.server, {origins:'rhcloud.com:* http://rhcloud.com:* http://www.rhcloud.com:*'}).listen(self.server);
-      //  self.server.listen(self.server);
-        self.io = require("socket.io").listen(self.server,{log:false, origins:'*:*'});
+
+        self.io = require("socket.io").listen(8000,{log:false, origins:'*:*'});
     //    self.io.configure(function() {
       //  io.set('match origin protocol', true);
     //    });
