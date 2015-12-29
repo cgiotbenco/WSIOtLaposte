@@ -209,12 +209,15 @@ var SampleApp = function()
        // self.io = require('socket.io')(self.server, {origins:'rhcloud.com:* http://rhcloud.com:* http://www.rhcloud.com:*'}).listen(self.server);
       //  self.server.listen(self.server);
         self.io = require("socket.io").listen(self.server);
+    //    self.io.configure(function() {
+      //  io.set('match origin protocol', true);
+    //    });
         // = io.listen(self.server);
     //    self.io.configure(function(){
      //       self.io.set("transports", ["websocket"]);
       //        self.io.set('match origin protocol', true);
       // }); 
-       self.io.set('transports',['websocket']);
+     //  self.io.set('transports',['websocket']);
 
      //   self.io.set('match origin protocol', true);
 
@@ -233,6 +236,7 @@ var SampleApp = function()
 
 
          self.io.sockets.on('connection', function (client) {
+             self.io.set('match origin protocol', true);
             var my_timer;
             var my_client = {
                 "id": clientId,
