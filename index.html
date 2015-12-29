@@ -48,8 +48,8 @@
 
 
             
-
-            var socket = io.connect('ws://nodejs-laposteiot.rhcloud.com:8000/', {'forceNew':true });
+          //   var socket = io.connect('ws://nodejs-laposteiot.rhcloud.com:80/', {'forceNew':true });
+            var socket = io.connect('ws://127.0.0.1:8000/', {'forceNew':true });
             socket.on('message', function (data) {
                 var obj = JSON.parse(data);
                 console.log(obj);

@@ -189,8 +189,6 @@ var SampleApp = function()
         self.createRoutes();
         self.app = express();
         var path = require('path')
-        self.app.enable('trust proxy');
-        self.app.set("trust proxy", true);
       //  var server = http.createServer(app);
       //   io = require('socket.io').listen(server);  //pass a http.Server instance
      //   server.listen(8085); 
@@ -206,11 +204,11 @@ var SampleApp = function()
 */
      //   self.app = express();
         self.server = require('http').createServer(self.app);
-
         self.io = require("socket.io").listen(self.server,{log:false, origins:'*:*'});
+        
         self.io.set('match origin protocol', true);
-        self.app.set('port', process.env.OPENSHIFT_NODEJS_PORT || 3000);  
-        self.app.set('ipaddr', process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1");  
+
+       self.server.listen(8000);
     //    self.io.configure(function() {
       //  io.set('match origin protocol', true);
     //    });
@@ -238,7 +236,7 @@ var SampleApp = function()
 
 
          self.io.sockets.on('connection', function (client) {
-             self.io.set('match origin protocol', true);
+             
             var my_timer;
             var my_client = {
                 "id": clientId,
