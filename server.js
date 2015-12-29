@@ -193,7 +193,7 @@ var SampleApp = function()
 
         var server = http.createServer(app);
          io = require('socket.io').listen(server);  //pass a http.Server instance
-        server.listen(80); 
+        server.listen(8085); 
         //  Add handlers for the app (from the routes).
         self.app.use(express.static(path.join(__dirname, 'public')));
 
