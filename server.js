@@ -195,9 +195,7 @@ var SampleApp = function()
       //   io = require('socket.io').listen(server);  //pass a http.Server instance
      //   server.listen(8085); 
        self.app.use(express.static(path.join(__dirname, 'public')));
-
-
- /*       self.app.use(function (req, res, next) {
+        self.app.use(function (req, res, next) {
 
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -205,20 +203,26 @@ var SampleApp = function()
         next();
         });
 
+
+     //   self.app = express();
         self.server = require('http').createServer(self.app);
-        self.io = require("socket.io").listen(self.server);
+       // self.io = require('socket.io')(self.server, {origins:'rhcloud.com:* http://rhcloud.com:* http://www.rhcloud.com:*'}).listen(self.server);
+      //  self.server.listen(self.server);
+        self.io = require("socket.io").listen(self.server,{log:false, origins:'*:*'});
+    //    self.io.configure(function() {
+      //  io.set('match origin protocol', true);
+    //    });
+        // = io.listen(self.server);
+    //    self.io.configure(function(){
+     //       self.io.set("transports", ["websocket"]);
+      //        self.io.set('match origin protocol', true);
+      // }); 
+     //  self.io.set('transports',['websocket']);
 
-        server.listen(process.env.OPENSHIFT_NODEJS_PORT, process.env.OPENSHIFT_NODEJS_IP);
-*/
+     //   self.io.set('match origin protocol', true);
 
 
-       // var express = require('express');
-       // var app = express();
-        self.server = require('http').createServer(self.app);
-        self.io = require('socket.io').listen(self.server);
-        self.server.listen(process.env.OPENSHIFT_NODEJS_PORT, process.env.OPENSHIFT_NODEJS_IP);
-
-
+       
 
         for (var r in self.routes)
         {
@@ -229,6 +233,7 @@ var SampleApp = function()
 
         var allClients = 0;
         var clientId = 1;
+
 
          self.io.sockets.on('connection', function (client) {
              self.io.set('match origin protocol', true);
@@ -241,7 +246,8 @@ var SampleApp = function()
             clientId += 1;
             allClients += 1;
 
-           
+
+            
             my_timer = setInterval(function () {
                    var newCourrier = {
                         id : 5,
