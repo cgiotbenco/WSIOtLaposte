@@ -236,7 +236,7 @@ var SampleApp = function()
             clientId += 1;
             allClients += 1;
 
-            
+            /*
             
             my_timer = setInterval(function () {
                    var newCourrier = {
@@ -249,7 +249,7 @@ var SampleApp = function()
 
             }, 50);
  
-        
+        */
             /*
             client.on('message', function(data) {
                 my_client.obj.broadcast.send(JSON.stringify({
