@@ -236,7 +236,7 @@ var SampleApp = function()
             clientId += 1;
             allClients += 1;
 
-            /*
+            
             
             my_timer = setInterval(function () {
                    var newCourrier = {
@@ -247,8 +247,8 @@ var SampleApp = function()
                     
                     self.io.sockets.emit('message', JSON.stringify(newCourrier));
 
-            }, 10);
- */
+            }, 50);
+ 
         
             /*
             client.on('message', function(data) {
