@@ -214,9 +214,9 @@ var SampleApp = function()
      //       self.io.set("transports", ["websocket"]);
       //        self.io.set('match origin protocol', true);
       // }); 
-    //   self.io.set('transports',['websocket']);
+       self.io.set('transports',['websocket']);
 
-        self.io.set('match origin protocol', true);
+     //   self.io.set('match origin protocol', true);
 
 
        
