@@ -189,17 +189,19 @@ var SampleApp = function()
         self.createRoutes();
         self.app = express();
         var path = require('path')
+        self.app.enable('trust proxy');
+        self.app.set("trust proxy", true);
       //  var server = http.createServer(app);
       //   io = require('socket.io').listen(server);  //pass a http.Server instance
      //   server.listen(8085); 
+       self.app.use(express.static(path.join(__dirname, 'public')));
         self.app.use(function (req, res, next) {
 
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
         res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
         next();
-        }
-        );
+        });
 
 
      //   self.app = express();
@@ -217,7 +219,7 @@ var SampleApp = function()
         self.io.set('match origin protocol', true);
 
 
-        self.app.use(express.static(path.join(__dirname, 'public')));
+       
 
         for (var r in self.routes)
         {
