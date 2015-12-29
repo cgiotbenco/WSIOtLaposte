@@ -180,26 +180,6 @@ var SampleApp = function()
         };
     };
 
-     
-       self.initializeSocketIO = function() {
-            self.server = require('http').createServer(self.app);
-            self.io = require('socket.io').listen(self.server);
-
-            self.io.set('transports', [
-                    'websocket'
-                ]);
-            return this;
-        }
-
-        self.addSocketIOEvents = function() {
-            self.io.sockets.on('connection', function (socket) {
-              socket.emit('news', { hello: 'world' });
-              socket.on('my other event', function (data) {
-                console.log(data);
-          });
-        });
-        }
-
 
     /**
      *  Initialize the server (express) and create the routes and register
@@ -209,13 +189,20 @@ var SampleApp = function()
         self.createRoutes();
         self.app = express();
         var path = require('path')
+      //  var server = http.createServer(app);
+      //   io = require('socket.io').listen(server);  //pass a http.Server instance
+     //   server.listen(8085); 
 
-/*
+
+
+     //   self.app = express();
         self.server = require('http').createServer(self.app);
         self.io = require("socket.io").listen(self.server);
-         self.io.set('transports', [
-                'websocket'
-            ]); */
+        // = io.listen(self.server);
+      /*  self.io.configure(function(){
+            self.io.set("transports", ["websocket"]);
+        }); */
+      self.io.set('transports',['websocket']);
 
         self.app.use(express.static(path.join(__dirname, 'public')));
 
@@ -225,7 +212,7 @@ var SampleApp = function()
         }
 
 
-/*
+
         var allClients = 0;
         var clientId = 1;
 
@@ -252,7 +239,7 @@ var SampleApp = function()
                     self.io.sockets.emit('message', JSON.stringify(newCourrier));
 
             }, 10);
-*/
+
         
             /*
             client.on('message', function(data) {
@@ -263,7 +250,6 @@ var SampleApp = function()
             });
 
 */
-/*
             
             client.on('disconnect', function() {
                 clearTimeout(my_timer);
@@ -271,10 +257,6 @@ var SampleApp = function()
                 console.log('disconnect');
             });
         });
-
-*/
-
-
     };
 
 
@@ -292,7 +274,6 @@ var SampleApp = function()
 
         // Create the express server and routes.
         self.initializeServer();
-    self.initializeSocketIO().addSocketIOEvents();
     };
 
 
