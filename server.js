@@ -205,6 +205,9 @@ var SampleApp = function()
             self.io.set("transports", ["websocket"]);
         }); */
       self.io.set('transports',['websocket']);
+     
+        self.io.set('match origin protocol', true);
+
 
         self.app.use(express.static(path.join(__dirname, 'public')));
 
