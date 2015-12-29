@@ -192,7 +192,14 @@ var SampleApp = function()
       //  var server = http.createServer(app);
       //   io = require('socket.io').listen(server);  //pass a http.Server instance
      //   server.listen(8085); 
+        app.use(function (req, res, next) {
+        res.setHeader('Access-Control-Allow-Origin', "http://"+req.headers.host+':8000');
 
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+        res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+        next();
+        }
+        );
 
 
      //   self.app = express();
@@ -206,7 +213,7 @@ var SampleApp = function()
       //        self.io.set('match origin protocol', true);
       // }); 
     //   self.io.set('transports',['websocket']);
-     
+
         self.io.set('match origin protocol', true);
 
 
