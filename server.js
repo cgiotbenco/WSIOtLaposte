@@ -197,7 +197,7 @@ var SampleApp = function()
 
      //   self.app = express();
         self.server = require('http').createServer(self.app);
-        self.io = require("socket.io").listen(8085);
+        self.io = require("socket.io").listen(self.server);
         // = io.listen(self.server);
       /*  self.io.configure(function(){
             self.io.set("transports", ["websocket"]);
