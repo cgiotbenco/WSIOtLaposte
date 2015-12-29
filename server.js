@@ -202,10 +202,10 @@ var SampleApp = function()
             self.app.get(r, self.routes[r]);
         }
 
+        /*
 
-
-          var allClients = 0;
-         var clientId = 1;
+        var allClients = 0;
+        var clientId = 1;
 
 
          io.sockets.on('connection', function (client) {
@@ -221,10 +221,6 @@ var SampleApp = function()
 
             
             my_timer = setInterval(function () {
-              /*  my_client.obj.send(JSON.stringify({
-                    "timestamp": (new Date()).getTime(),
-                    "clients": allClients
-                }));*/ 
                    var newCourrier = {
                         id : 5,
                         poid : Math.floor((Math.random() * 500) + 1),
@@ -234,7 +230,7 @@ var SampleApp = function()
                     io.sockets.emit('message', JSON.stringify(newCourrier));
 
             }, 10);
-
+    */
         
             /*
             client.on('message', function(data) {
