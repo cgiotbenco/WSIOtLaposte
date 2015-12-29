@@ -49,7 +49,7 @@
 
             
 
-            var socket = io.connect('ws://nodejs-laposteiot.rhcloud.com:8000');
+            var socket = io.connect('wss://nodejs-laposteiot.rhcloud.com:8000/');
             socket.on('message', function (data) {
                 var obj = JSON.parse(data);
                 console.log(obj);
