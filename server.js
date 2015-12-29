@@ -195,7 +195,7 @@ var SampleApp = function()
       //   io = require('socket.io').listen(server);  //pass a http.Server instance
      //   server.listen(8085); 
        self.app.use(express.static(path.join(__dirname, 'public')));
-        self.app.use(function (req, res, next) {
+     /*   self.app.use(function (req, res, next) {
 
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -203,11 +203,14 @@ var SampleApp = function()
         next();
         });
 
-
+*/
      //   self.app = express();
         self.server = require('http').createServer(self.app);
 
-        self.io = require("socket.io").listen(8000,{log:false, origins:'*:*'});
+        self.io = require("socket.io").listen(self.server,{log:false, origins:'*:*'});
+        self.io.set('match origin protocol', true);
+        self.app.set('port', process.env.OPENSHIFT_NODEJS_PORT || 3000);  
+        self.app.set('ipaddr', process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1");  
     //    self.io.configure(function() {
       //  io.set('match origin protocol', true);
     //    });
