@@ -52,8 +52,7 @@ var SampleApp = function()
         //  Set the environment variables we need.
         self.ipaddress = process.env.OPENSHIFT_NODEJS_IP ||
                          process.env.OPENSHIFT_INTERNAL_IP;
-        self.port      = process.env.OPENSHIFT_NODEJS_PORT   ||
-                         process.env.OPENSHIFT_INTERNAL_PORT || 8091;
+        self.port      = process.env.OPENSHIFT_INTERNAL_PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080;
 
         if (typeof self.ipaddress === "undefined") {
             //  Log errors on OpenShift but continue w/ 127.0.0.1 - this
@@ -189,38 +188,15 @@ var SampleApp = function()
         self.createRoutes();
         self.app = express();
         var path = require('path')
-      //  var server = http.createServer(app);
-      //   io = require('socket.io').listen(server);  //pass a http.Server instance
-     //   server.listen(8085); 
+
        self.app.use(express.static(path.join(__dirname, 'public')));
-     /*   self.app.use(function (req, res, next) {
 
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-        res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-        next();
-        });
-
-*/
-     //   self.app = express();
         self.server = require('http').createServer(self.app);
         self.io = require("socket.io").listen(self.server,{log:false, origins:'*:*'});
         
-        self.io.set('match origin protocol', true);
+        //self.io.set('match origin protocol', false);
 
-       self.server.listen(8000);
-    //    self.io.configure(function() {
-      //  io.set('match origin protocol', true);
-    //    });
-        // = io.listen(self.server);
-    //    self.io.configure(function(){
-     //       self.io.set("transports", ["websocket"]);
-      //        self.io.set('match origin protocol', true);
-      // }); 
-     //  self.io.set('transports',['websocket']);
-
-     //   self.io.set('match origin protocol', true);
-
+       //self.server.listen(8000);
 
        
 
@@ -306,9 +282,12 @@ var SampleApp = function()
         {
             console.log('%s: Node server started on %s:%d ...', Date(Date.now() ), self.ipaddress, self.port);
         });
+       // console.log(self.port);
+        self.server.listen(8000);
+
     };
 
-    console.log("HELLO");
+
 
 
 
