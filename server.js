@@ -202,6 +202,9 @@ var SampleApp = function()
       /*  self.io.configure(function(){
             self.io.set("transports", ["websocket"]);
         }); */
+         self.io.set('transports', [
+                'websocket'
+            ]);
 
         self.app.use(express.static(path.join(__dirname, 'public')));
 
