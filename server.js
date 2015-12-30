@@ -144,7 +144,7 @@ var SampleApp = function()
                     }
                     var formathour = d.getHours();
                     formathour = formathour+6;
-                    var  formatTime = d.getHours()+" h "+formatminute+" et "+d.getSeconds()+" secondes"
+                    var  formatTime = formathour+" h "+formatminute+" et "+d.getSeconds()+" secondes"
                     var newCourrier = {
                         id : req.params.id,
                         poid : req.params.poid,
