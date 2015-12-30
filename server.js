@@ -173,6 +173,14 @@ var SampleApp = function()
                      '  <body>\n<br/>\n' + content + '</body>\n</html>');
         };
 
+        self.routes['/push'] = function(req, res) {
+            res.setHeader('Access-Control-Allow-Origin', "http://"+req.headers.host+':8000');
+            res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+            res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+            res.set('Content-Type', 'text/html');
+            res.send(self.cache_get('testpush.html') );
+        };
+
         self.routes['/'] = function(req, res) {
             res.setHeader('Access-Control-Allow-Origin', "http://"+req.headers.host+':8000');
             res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
