@@ -137,15 +137,22 @@ var SampleApp = function()
               
                 
                 if(req.params.id.length > 0  && req.params.poid.length > 0 && req.params.etatbatterie.length > 0) {
+                    d = new Date();
+                    var formatminute = d.getMinutes();
+                    if(formatminute< 10){
+                        formatminute = "0"+formatminute;
+                    }
+                    var  formatTime = d.getHours()+" h "+formatminute+" et "+d.getSeconds()+" secondes"
                     var newCourrier = {
                         id : req.params.id,
                         poid : req.params.poid,
                         etatbatterie : req.params.etatbatterie,
+                        heurerecepetion : formatTime,
                     }
                     
                      self.io.sockets.emit('message', JSON.stringify(newCourrier));
 
-                     res.send("bonjour client n°"+newCourrier.id+" il a été detecté un poid de "+newCourrier.poid+"g, pourinformation votre boitier a une charge de "+newCourrier.etatbatterie+"%");
+                     res.send("bonjour client n°"+newCourrier.id+" à "+formatTime+" il a été detecté un poid de "+newCourrier.poid+"g, pourinformation votre boitier a une charge de "+newCourrier.etatbatterie+"%");
                 }else{
                      res.send("paramatre manquant");
                 }
