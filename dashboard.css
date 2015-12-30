@@ -12,10 +12,6 @@ body {
  * Global add-ons
  */
 
- .navbar-toggle {
-    background-color: #3e3e3e;
-}
-
 .sub-header {
   padding-bottom: 10px;
   border-bottom: 1px solid #eee;
@@ -27,12 +23,6 @@ body {
  */
 .navbar-fixed-top {
   border: 0;
-  background-color: #ffc928;
-
-}
-
-.navbar-inverse .navbar-brand {
-    color: #3e3e3e;
 }
 
 /*
@@ -49,7 +39,6 @@ body {
     top: 51px;
     bottom: 0;
     left: 0;
-    color: #000;
     z-index: 1000;
     display: block;
     padding: 20px;
@@ -94,7 +83,6 @@ body {
 .main .page-header {
   margin-top: 0;
 }
-
 
 
 /*
