@@ -118,7 +118,7 @@
                     "borderAlpha": "0",
                     "cylFillColor": "#008ee4"
                 },
-				 "colorRange": {
+	       "colorRange": {
                       "color": [
                          {
                             "minValue": "0",
@@ -137,19 +137,19 @@
                          }
                       ]
                    },
-                "value": "180"
+                "value": "5"
             },
 			/* à supprimer après */
             "events":{
                 "rendered": function(evtObj, argObj)
 				{
-                    setInterval(function () 
-					{
-                        (fuelVolume < 10) ? (fuelVolume = 200) : "";
-                        var consVolume = fuelVolume +(Math.floor(Math.random() * 2));
+                  //  setInterval(function () 
+		//	{
+                     //   (fuelVolume < 10) ? (fuelVolume  200) : "";
+                      //  var consVolume = fuelVolume +(Math.floor(Math.random() * 2));
                         FusionCharts("fuelMeter").feedData("&value=" + consVolume);
                         fuelVolume = consVolume;
-                    }, 1000);
+                    //}, 1000);
                 }
             }
         }).render();
