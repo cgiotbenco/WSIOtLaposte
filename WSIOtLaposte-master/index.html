@@ -1,0 +1,174 @@
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="http://www.laposte.fr/bundles/digitaslapostebase/images/favicon.ico">
+
+    <title>Dashboard Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="http://getbootstrap.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="./public/css/dashboard.css" rel="stylesheet">
+
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
+     <script src="http://code.jquery.com/jquery-1.5.min.js"></script>
+	<script src="http://static.fusioncharts.com/code/latest/fusioncharts.js"></script>
+	<script src="http://static.fusioncharts.com/code/latest/fusioncharts.widgets.js"></script>
+    <script src="./public/js/socket.io.js"></script>
+    <script src="./public/js/raphael-2.1.4.min.js"></script>
+    <script src="./public/js/justgage-1.1.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            
+
+            var g = new JustGage({
+              id: "gaugePoid",
+              value: 0,
+              min: 0,
+              max: 500,
+              title: "Poid",
+              label: "grammes",
+            });
+
+            var sb = new JustGage({
+              id: "smallBatterie",
+              value: 0,
+              min: 0,
+              max: 100,
+              label: "batterie",
+            });
+
+		var sb = new JustGage({
+              id: "smallBatterie2",
+              value: 0,
+              min: 0,
+              max: 100,
+              label: "batterie",
+            });
+			
+			 var fuelVolume = 110,
+			fuelWidget = new FusionCharts({
+            type: 'cylinder',
+            dataFormat: 'json',
+            id: 'fuelMeter',
+            renderAt: 'chart-container',
+            width: '200',
+            height: '250',
+            dataSource: {
+                "chart": {
+                    "caption": "Benne",
+                    "subcaption": "Niveau",
+                    "subcaptionFontBold": "0",
+                    "lowerLimit": "0",
+                    "upperLimit": "200",
+                    "lowerLimitDisplay": "Vide",
+                    "upperLimitDisplay": "Remplie",
+                    "numberSuffix": "Cm",
+                    "showValue": "0",
+                    "showhovereffect": "1",
+                    "bgCOlor": "#ffffff",
+                    "borderAlpha": "0",
+                    "cylFillColor": "#008ee4"
+                },
+                "value": "110"
+            },
+			/* à supprimer après */
+            "events":{
+                "rendered": function(evtObj, argObj){
+                    setInterval(function () {
+                        (fuelVolume < 10) ? (fuelVolume = 200) : "";
+                        var consVolume = fuelVolume -(Math.floor(Math.random() * 5));
+                        FusionCharts("fuelMeter").feedData("&value=" + consVolume);
+                        fuelVolume = consVolume;
+                    }, 1000);
+                }
+            }
+        }).render();
+            
+          //   var socket = io.connect('ws://nodejs-laposteiot.rhcloud.com:80/', {'forceNew':true });
+            var socket = io.connect('ws://nodejs-laposteiot.rhcloud.com:8000/');
+            socket.on('message', function (data) 
+			{
+                var obj = JSON.parse(data);
+                console.log(obj);
+                g.refresh(obj.poid);
+                sb.refresh(obj.etatbatterie);
+                $("#numboiteaulettre").html(obj.id);
+                $("#timerecept").html("Date-heure Réception : "+obj.heurerecepetion);
+            });
+
+
+            
+        });
+      
+    </script>
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-send" aria-hidden="true"></span> Ma boite au lettre n° <span id="numboiteaulettre" >0</span></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Dashboard</a></li>
+            <li><a >Help</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="#" onclick="loadit(this)">Ma boîte au lettre <span class="sr-only">(current)</span></a></li>
+            <li><a href="stx.html">Reports</a></li>
+            <li><a href="#">Analytics</a></li>
+            <li><a href="#">Export</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h2 style="text-align:center" id="timerecept"></h2>
+          <div class="row">
+            <div class="col-md-6"> <div id="smallBatterie" class="pull-right"style="width:100px; height:80px"></div></div>
+            <div class="col-md-6"><div id="gaugePoid" style="width:200px; height:160px"></div></div><hr>
+			
+          </div>
+          <div><h2 style="text-align:center">Prototype de boite au lettre connectée</h2><div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="http://getbootstrap.com/assets/js/vendor/holder.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+  
+
+</body></html>

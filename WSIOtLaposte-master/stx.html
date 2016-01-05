@@ -1,0 +1,246 @@
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<style>
+      #map 
+	  {
+        height: 60%;
+		width:40%;
+      }
+	  .controls {
+  margin-top: 10px;
+  border: 1px solid transparent;
+  border-radius: 2px 0 0 2px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  height: 32px;
+  outline: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+#pac-input {
+  background-color: #fff;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 300;
+  margin-left: 12px;
+  padding: 0 11px 0 13px;
+  text-overflow: ellipsis;
+  width: 300px;
+}
+
+#pac-input:focus {
+  border-color: #4d90fe;
+}
+
+.pac-container {
+  font-family: Roboto;
+}
+
+#type-selector {
+  color: #fff;
+  background-color: #4d90fe;
+  padding: 5px 11px 0px 11px;
+}
+
+#type-selector label {
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: 300;
+}
+    </style>
+    <link rel="icon" href="http://www.laposte.fr/bundles/digitaslapostebase/images/favicon.ico">
+    <title>Dashboard Template for Bootstrap</title>
+    <!-- Bootstrap core CSS -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="http://getbootstrap.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="./public/css/dashboard.css" rel="stylesheet">
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
+     <script src="http://code.jquery.com/jquery-1.5.min.js"></script>
+	<script src="http://static.fusioncharts.com/code/latest/fusioncharts.js"></script>
+	<script src="http://static.fusioncharts.com/code/latest/fusioncharts.widgets.js"></script>
+    <script src="./public/js/socket.io.js"></script>
+	 <script src="./public/js/map.js"></script>
+    <script src="./public/js/raphael-2.1.4.min.js"></script>
+    <script src="./public/js/justgage-1.1.0.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVHrjEE28C_dpI4jiUBG8Wl2mhLnXVqdA&signed_in=true&libraries=places&callback=initMap" async defer></script>
+    <script type="text/javascript">
+        $(document).ready(function () 
+		{
+            var g = new JustGage({
+              id: "gaugePoid",
+              value: 0,
+              min: 0,
+              max: 500,
+              title: "Poid",
+              label: "Grammes",
+            });
+
+            var sb = new JustGage({
+              id: "smallBatterie",
+              value: 0,
+              min: 0,
+              max: 100,
+			  title: "Batterie",
+              label: "Batterie",
+            });
+
+		
+			
+			var fuelVolume = 5,
+			Fuel = new FusionCharts({
+            type: 'cylinder',
+            dataFormat: 'json',
+            id: 'fuelMeter',
+            renderAt: 'chart-container',
+            width: '200',
+            height: '250',
+            dataSource:
+			{
+                "chart": {
+                    "caption": "Benne",
+                    "subcaption": "Niveau",
+                    "subcaptionFontBold": "0",
+                    "lowerLimit": "0",
+                    "upperLimit": "200",
+                    "lowerLimitDisplay": "Vide",
+                    "upperLimitDisplay": "Remplie",
+                    "numberSuffix": "Cm",
+                    "showValue": "0",
+                    "showhovereffect": "1",
+                    "bgCOlor": "#ffffff",
+                    "borderAlpha": "0",
+                    "cylFillColor": "#008ee4"
+                },
+				 "colorRange": {
+                      "color": [
+                         {
+                            "minValue": "0",
+                            "maxValue": "50",
+                            "code": "#e44a00"
+                         },
+                         {
+                            "minValue": "50",
+                            "maxValue": "75",
+                            "code": "#f8bd19"
+                         },
+                         {
+                            "minValue": "75",
+                            "maxValue": "100",
+                            "code": "#6baa01"
+                         }
+                      ]
+                   },
+                "value": "180"
+            },
+			/* à supprimer après */
+            "events":{
+                "rendered": function(evtObj, argObj)
+				{
+                    setInterval(function () 
+					{
+                        (fuelVolume < 10) ? (fuelVolume = 200) : "";
+                        var consVolume = fuelVolume +(Math.floor(Math.random() * 2));
+                        FusionCharts("fuelMeter").feedData("&value=" + consVolume);
+                        fuelVolume = consVolume;
+                    }, 1000);
+                }
+            }
+        }).render();
+            
+          //   var socket = io.connect('ws://nodejs-laposteiot.rhcloud.com:80/', {'forceNew':true });
+            var socket = io.connect('ws://nodejs-laposteiot.rhcloud.com:8000/');
+            socket.on('message', function (data)
+			{
+                var obj = JSON.parse(data);
+                console.log(obj);
+                //g.refresh(obj.poid);
+                sb.refresh(obj.etatbatterie);
+				 FusionCharts("fuelMeter").feedData("&value=" + obj.poid);
+                $("#numboiteaulettre").html(obj.id);
+                $("#timerecept").html("reçu à "+obj.heurerecepetion);
+            });
+			 
+        });
+      
+    </script>
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-send" aria-hidden="true"></span> Ma benne connectée <span id="numboiteaulettre" >0</span></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Dashboard</a></li>
+            <li><a >Help</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+		 
+          <li ><a href="index.html"> Ma boîte au lettre </a></li>
+		   <li class="active"><a href="stx.html">Niveau des bennes<span class="sr-only">(current)</span></a></li>
+          <li><a href="#">Analytics</a></li>
+          <li><a href="#">Export</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h2 style="text-align:center" id="timerecept"></h2>
+        <div class="row">
+		
+         </div>
+		 <!-- rajouter ici autres élements -->
+		  <input id="pac-input" class="controls" type="text"
+			placeholder="Enter a location">
+			<div id="type-selector" class="controls">
+			<input type="radio" name="type" id="changetype-all" checked="checked">
+			<label for="changetype-all">All</label>
+			<input type="radio" name="type" id="changetype-establishment">
+			<label for="changetype-establishment">Establishments</label>
+			<input type="radio" name="type" id="changetype-address">
+			<label for="changetype-address">Addresses</label>
+			<input type="radio" name="type" id="changetype-geocode">
+			<label for="changetype-geocode">Geocodes</label>
+		</div>
+        <div id="map" class="pull-right"></div>
+		<div class="col-md-8"><div id="chart-container" class="pull-left" style="width:80px; height:40px"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="http://getbootstrap.com/assets/js/vendor/holder.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+  
+
+</body></html>
