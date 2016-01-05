@@ -75,6 +75,7 @@ var SampleApp = function()
 
         //  Local cache for static content.
         self.zcache['index.html'] = fs.readFileSync('./index.html');
+		 self.zcache['stx.html'] = fs.readFileSync('./stx.html');
     };
 
 
@@ -191,6 +192,14 @@ var SampleApp = function()
             res.set('Content-Type', 'text/html');
             res.send(self.cache_get('index.html') );
         };
+		  
+        self.routes['/stx'] = function(req, res) {
+            res.setHeader('Access-Control-Allow-Origin', "http://"+req.headers.host+':8000');
+            res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+            res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+            res.set('Content-Type', 'text/html');
+            res.send(self.cache_get('stx.html') );
+        };
     };
 
 
@@ -208,7 +217,8 @@ var SampleApp = function()
 
         self.app.disable('x-powered-by');
 
-        self.app.use(function (req, res, next) {
+        self.app.use(function (req, res, next) 
+		{
                 res.setHeader('Access-Control-Allow-Origin', "http://"+req.headers.host+':8000');
                 res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
                 res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');

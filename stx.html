@@ -75,7 +75,7 @@
     <script type="text/javascript">
         $(document).ready(function () 
 		{
-            var g = new JustGage({
+           /* var g = new JustGage({
               id: "gaugePoid",
               value: 0,
               min: 0,
@@ -92,9 +92,7 @@
 			  title: "Batterie",
               label: "Batterie",
             });
-
-		
-			
+			*/
 			var fuelVolume = 5,
 			Fuel = new FusionCharts({
             type: 'cylinder',
@@ -163,7 +161,7 @@
                 var obj = JSON.parse(data);
                 console.log(obj);
                 //g.refresh(obj.poid);
-                sb.refresh(obj.etatbatterie);
+             //   sb.refresh(obj.etatbatterie);
 				 FusionCharts("fuelMeter").feedData("&value=" + obj.poid);
                 $("#numboiteaulettre").html(obj.id);
                 $("#timerecept").html("reçu à "+obj.heurerecepetion);
