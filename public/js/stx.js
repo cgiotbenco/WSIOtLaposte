@@ -1,7 +1,8 @@
        
   var socket = null;
  //var addressport = "127.0.0.1:8091"
-  var addressport = "nodejs-laposteiot.rhcloud.com:8000"
+  var addressport = "nodejs-laposteiot.rhcloud.com:8000";
+  var addressSeul = "nodejs-laposteiot.rhcloud.com";
         $(document).ready(function () 
 		{
  
@@ -57,7 +58,7 @@
 	   {
 
 			$.ajax({
-				url: "http://"+addressport+"/api/database/regions",
+				url: "http://"+addressSeul+"/api/database/regions",
 				dataType: 'json',
 				jsonpCallback: 'callback',
 				 success: function() { 
