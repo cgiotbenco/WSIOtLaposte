@@ -1,0 +1,165 @@
+[{
+	"region": "Pays de la loire",
+	"ListeSite": 
+	[{
+		"Site": "Site Nantes",
+		"NbBennes": "2",
+		"ListBennes":
+		[
+		 {
+			    "Identifiant": "100001",
+			    "Libelle": "Benne1 Nord",
+			    "HauteurMax":"100",
+				"coord": {
+						"Altitude": "47.218371",
+						"Longitude": "-1.553621"
+						 }
+		 },
+		 {
+			    "Identifiant": "100002",
+			    "Libelle": "Benne2 Sud",
+			    "HauteurMax":"200",
+				"coord": {
+						"Altitude": "47.176645",
+						"Longitude": "-1.596901"
+						 }
+		 }
+		],
+		"coord": {
+			"Altitude": "47.218371",
+			"Longitude": "-1.553621"
+		}
+	},
+	{
+		"Site": "Site Angers",
+		"NbBennes": "3",
+		"ListBennes":
+			[
+			 {
+				"Identifiant": "100003",
+				"Libelle": "Benne1 Nord",
+				"HauteurMax":"100",
+					"coord": {
+					"Altitude": "47.478419",
+					"Longitude": " -0.563166"
+					 }
+			 },
+			 {
+				"Identifiant": "100004",
+				"Libelle": "Benne2 Est",
+				"HauteurMax":"100",
+					"coord": {
+					"Altitude": "47.475235",
+					"Longitude": "-0.596901"
+					 }
+			 },
+			 {
+				"Identifiant": "100005",
+				"Libelle": "Benne3 Ouest",
+				"HauteurMax":"100",
+					"coord": {
+					"Altitude": "47.457809",
+					"Longitude": "-0.532837"
+					 }
+			 }
+	 
+			],
+		"coord": {
+			"Altitude": "47.478419",
+			"Longitude": "-0.563166"
+		}
+	},
+	{
+		"Site": "Site Carguefou",
+		"NbBennes": "1",
+		"ListBennes":
+			[
+			 {
+					"Identifiant": "100006",
+					"Libelle": "Benne1 Nord",
+					"HauteurMax":"100",
+					"coord": {
+					"Altitude": "47.296241",
+					"Longitude": "-1.486812"
+					 }
+			 }
+		
+			],
+		"coord": {
+			"Altitude": " 47.478419",
+			"Longitude": "-0.563166"
+			
+		}
+	}]
+},
+{
+	"region": "Bretagne",
+	"ListeSite": [{
+		"Site": "Site Rennes",
+		"NbBennes": "3",
+		"ListBennes":
+			[
+			 {
+					"Identifiant": "100007",
+					"Libelle": "Benne1 Nord",
+					"HauteurMax":"100",
+					"coord": {
+					"Altitude": "48.139516",
+					"Longitude": "-1.655953"
+					 }
+			 },
+			 {
+				    "Identifiant": "100008",
+				    "Libelle": "Benne2 Nord",
+				    "HauteurMax":"100",
+					"coord": {
+					"Altitude": "48.09184",
+					"Longitude": "-1.649323"
+					 }
+			 },
+			 {
+				    "Identifiant": "100008",
+				    "Libelle": "Benne3 Ouest",
+				    "HauteurMax":"100",
+					"coord": {
+					"Altitude": "48.128518",
+					"Longitude": "-1.602395"
+					 }
+			 }
+			],
+		"coord": {
+			"Altitude": "48.117266",
+			"Longitude": "-1.677793"
+			
+		}
+	},
+	{
+		"Site": "Site Brest",
+		"NbBennes": "2",
+		"ListBennes":
+		 [
+			 {
+					"Identifiant": "100009",
+					"Libelle": "Benne1 Est",
+					"HauteurMax":"100",
+					"coord": {
+					"Altitude": "48.37997",
+					"Longitude": "-4.547653"
+					 }
+			 },
+			 {
+				"Identifiant": "100010",
+				"Libelle": "Benne1 Ouest",
+				"HauteurMax":"100",
+					"coord": {
+					"Altitude": "48.394562",
+					"Longitude": "-4.456329"
+					 }
+			 }
+		 ],
+		"coord": {
+			"Altitude": "48.390394",
+			"Longitude": "-4.486076"
+		}
+	}]
+}]

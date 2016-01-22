@@ -5,15 +5,15 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-   <!--  <link rel="icon" href="http://www.laposte.fr/bundles/digitaslapostebase/images/favicon.ico"> -->
+    <link rel="icon" href="http://www.laposte.fr/bundles/digitaslapostebase/images/favicon.ico">
 
     <title>Dashboard Template for Bootstrap</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
- <!--   <link href="http://getbootstrap.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet"> -->
+    <link href="http://getbootstrap.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="./css/dashboard.css" rel="stylesheet">
@@ -21,8 +21,8 @@
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
- <!--   <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script> -->
-     <script src="./js/jquery-1.5.min.js"></script>
+    <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
+     <script src="http://code.jquery.com/jquery-1.5.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
         <script src="./js/raphael-2.1.4.min.js"></script>
   <script src="./js/justgage-1.1.0.min.js"></script>
@@ -49,8 +49,8 @@
 
 
             
-             var socket = io.connect('ws://127.0.0.1:8091/');
-           // var socket = io.connect('ws://nodejs-laposteiot.rhcloud.com:8000/');
+          //   var socket = io.connect('ws://nodejs-laposteiot.rhcloud.com:80/', {'forceNew':true });
+            var socket = io.connect('ws://nodejs-laposteiot.rhcloud.com:8000/');
             socket.on('message', function (data) {
                 var obj = JSON.parse(data);
                 console.log(obj);
@@ -120,13 +120,13 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="./js/jquery.min.js"></script>
-  <!-- <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script> -->
-    <script src="./js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
     <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-    <script src="./js/holder.min.js"></script>
+    <script src="http://getbootstrap.com/assets/js/vendor/holder.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-   <!-- <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script> -->
+    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
   
 
 </body></html>

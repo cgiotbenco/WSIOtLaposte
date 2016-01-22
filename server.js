@@ -74,6 +74,7 @@ var SampleApp = function()
         }
 
         //  Local cache for static content.
+         self.zcache['stx.html'] = fs.readFileSync('./stx.html');
         self.zcache['index.html'] = fs.readFileSync('./index.html');
     };
 
@@ -131,6 +132,17 @@ var SampleApp = function()
             res.send('1');
         };
 
+        self.routes['/api/database/regions'] = function (req, res)
+        {
+            res.setHeader('Access-Control-Allow-Origin', "http://"+req.headers.host+':8000');
+            res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+            res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+            res.set('Content-Type', 'application/json');
+            res.send(fs.readFileSync('./bd.json'));
+        }
+
+
+
 
         self.routes['/api/wslaposte/:id/:etatbatterie/:poid'] = function (req, res)
         {
@@ -151,8 +163,10 @@ var SampleApp = function()
                         etatbatterie : req.params.etatbatterie,
                         heurerecepetion : formatTime,
                     }
-                    
-                     self.io.sockets.emit('message', JSON.stringify(newCourrier));
+
+
+                   // getMaxFuelByIdBenne(newCourrier.id);
+                     self.io.sockets.emit('message/'+newCourrier.id, JSON.stringify(newCourrier));
 
                      res.send("bonjour client n°"+newCourrier.id+" à "+formatTime+" il a été detecté un poid de "+newCourrier.poid+"g, pourinformation votre boitier a une charge de "+newCourrier.etatbatterie+"%");
                 }else{
@@ -162,6 +176,30 @@ var SampleApp = function()
 
         };
 
+
+        function getMaxFuelByIdBenne(idBenne){
+
+           // var dataFromBase = fs.readFileSync('./bd.json');
+            var parsedJSON = require('./bd.json');
+            //console.log(JSON.stringify(parsedJSON[0].ListeSite));
+            var listSite = parsedJSON[0].ListeSite;
+            for(var site in listSite){
+               // console.log(site+": "+listSite[site].ListBennes);
+                var listbenne = listSite[site].ListBennes;
+                for(var benne in listbenne){
+                   //  console.log(benne+": "+listbenne[benne].Identifiant);
+                     if(idBenne == listbenne[benne].Identifiant){
+                       // console.log("la benne"+idBenne+" max fuel :"+listbenne[benne].HauteurMax);
+                        return listbenne[benne].HauteurMax;
+                     }
+                }
+            }
+
+            return 150;
+           // dataFromBase()
+
+
+        }
 
 
         self.routes['/asciimo'] = function(req, res) {
@@ -191,6 +229,14 @@ var SampleApp = function()
             res.set('Content-Type', 'text/html');
             res.send(self.cache_get('index.html') );
         };
+
+          self.routes['/stx'] = function(req,res){
+             res.setHeader('Access-Control-Allow-Origin', "http://"+req.headers.host+':8000');
+            res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+            res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+            res.set('Content-Type', 'text/html');
+            res.send(self.cache_get('stx.html') );
+        }
     };
 
 
@@ -221,7 +267,7 @@ var SampleApp = function()
         
         self.io.set('match origin protocol', true);
 
-       //self.server.listen(8000);
+      // self.server.listen(8000);
 
        
 
@@ -247,20 +293,41 @@ var SampleApp = function()
             clientId += 1;
             allClients += 1;
 
-            /*
             
+            /*
             my_timer = setInterval(function () {
-                   var newCourrier = {
-                        id : 5,
+
+                d = new Date();
+                    var formatminute = d.getMinutes();
+                    if(formatminute< 10){
+                        formatminute = "0"+formatminute;
+                    }
+                    var formathour = d.getHours();
+                    formathour = formathour+6;
+                    var  formatTime = formathour+" h "+formatminute+" et "+d.getSeconds()+" secondes"
+                    var newCourrier = {
+                        id : 100002,
                         poid : Math.floor((Math.random() * 500) + 1),
                         etatbatterie : Math.floor((Math.random() * 100) + 1),
+                        heurerecepetion : formatTime,
                     }
-                    
-                    self.io.sockets.emit('message', JSON.stringify(newCourrier));
 
-            }, 50);
- 
-        */
+                      var newCourrier2 = {
+                        id : 100001,
+                        poid : Math.floor((Math.random() * 500) + 1),
+                        etatbatterie : Math.floor((Math.random() * 100) + 1),
+                        heurerecepetion : formatTime,
+                    }
+
+
+                
+                    self.io.sockets.emit('message/'+newCourrier.id, JSON.stringify(newCourrier));
+                    self.io.sockets.emit('message/'+newCourrier2.id, JSON.stringify(newCourrier2));
+                    //self.io.sockets.emit('message', JSON.stringify(newCourrier));
+
+            }, 100);
+                /*
+        
             /*
             client.on('message', function(data) {
                 my_client.obj.broadcast.send(JSON.stringify({

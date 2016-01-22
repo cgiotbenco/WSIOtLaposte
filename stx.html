@@ -1,0 +1,252 @@
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data:" />
+
+	<style>
+    #map 
+	  {
+        height: 43%;
+		width:100%;
+      }
+	  .controls {
+  margin-top: 10px;
+  border: 1px solid transparent;
+  border-radius: 2px 0 0 2px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  height: 32px;
+  outline: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+#pac-input {
+  background-color: #fff;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 300;
+  margin-left: 12px;
+  padding: 0 11px 0 13px;
+  text-overflow: ellipsis;
+  width: 300px;
+}
+
+#pac-input:focus {
+  border-color: #4d90fe;
+}
+
+.pac-container {
+  font-family: Roboto;
+}
+
+#type-selector {
+  color: #fff;
+  background-color: #4d90fe;
+  padding: 5px 11px 0px 11px;
+}
+
+#type-selector label {
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: 300;
+}
+    </style>
+    <link rel="icon" href="http://www.laposte.fr/bundles/digitaslapostebase/images/favicon.ico">
+    <title>Dashboard Template for Bootstrap</title>
+    <!-- Bootstrap core CSS -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="http://getbootstrap.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/dashboard.css" rel="stylesheet">
+	 
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
+    <script src="http://code.jquery.com/jquery-1.5.min.js"></script>
+	<script src="http://static.fusioncharts.com/code/latest/fusioncharts.js"></script>
+	<script src="http://static.fusioncharts.com/code/latest/fusioncharts.widgets.js"></script> 
+    <script src="js/socket.io.js"></script>
+	<!-- <script src="js/bd.js"></script> -->
+    <script src="js/raphael-2.1.4.min.js"></script>
+    <script src="js/justgage-1.1.0.min.js"></script>
+	<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVHrjEE28C_dpI4jiUBG8Wl2mhLnXVqdA&signed_in=true&libraries=places&callback=initMap" async defer></script> -->
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVHrjEE28C_dpI4jiUBG8Wl2mhLnXVqdA&signed_in=true&libraries=places&callback=initMap2" async defer></script>
+
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-send" aria-hidden="true"></span> Ma benne connectée <span id="numboiteaulettre" >0</span></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-stx navbar-right">
+            <li ><a href="index.html"> Ma boîte au lettre</a></li>
+            <li><a href="stx.html"> Ma benne connecte </a></li>
+			  <li><a href="#">Analytics</a></li>
+              <li><a href="#">Export</a></li>
+              <li><a >Help</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid main">
+    <!--   <div class="row">
+          <ul class="nav nav-sidebar">
+          <li ><a href="/"> Ma boîte au lettre</a></li>
+          <li class="active"><a href="stx.html"> Ma benne <span class="sr-only">(current)</span></a></li>
+        
+          </ul>
+      </div> -->
+	  
+	 <div class="container ">
+	  <div class="row">
+	  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6  padding margin-top-5">
+				 <div class="bloc-back">
+				    <div class="bloc-titre bloc-entet color-bleu text-center margin-bottom-10"> Fiche descriptive BENNE </div>
+					       <div  class="bloc-body padding-20">
+						   <form role="form" class="form-horizental">
+						   <div class="row">
+						   <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 ">
+						   <div class="form-group">
+						          
+								<label class=""> Région &nbsp&nbsp &nbsp&nbsp  &nbsp </label> 
+								<select id="list-region2" class="form-control list-region2" onclick="searchVille(); " >	
+							    </select>
+								
+							</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 ">
+						   <div class="form-group">
+								  
+								  <label class="">Latitude &nbsp </label>  
+								  <input id="latitude" class="latitude form-control " value=""/>
+						   </div> &nbsp&nbsp &nbsp&nbsp								  
+							<div class="form-group">
+								  <label class="">Longitude   </label> <input id="longitude" class="longitude form-control " value="" />
+								  
+							</div>
+							</div>
+							</div>
+							<div class="row margin-top-15">
+						   <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 ">
+							<div class="form-group">
+								  <label class=""> Ville &nbsp&nbsp &nbsp&nbsp  &nbsp </label> 
+										<select id="list-ville2" class="form-control" onclick="searchInfosVille();">
+										
+							              </select>
+								  </div></div>
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 ">
+							<div class="form-group ">	 
+								  <label class="">Nombre de bennes  &nbsp&nbsp &nbsp&nbsp  </label>
+								  <input id="nb-bennes" class="navire-Type form-control " value="0"/>
+							</div>
+							
+							<div class="form-group ">	 
+								  <label class="" >  Selection bennes </label>
+								 <select id="list-benne" class="form-control"  onclick="chargerCoordBennes();" >
+								 </select>
+							</div>
+							</div>
+							</div>
+							<div class="row btn-container margin-top-15" style="text-align:center;">
+							<!-- <button type="button"  class="btn btn-primary center" onclick="getInfos();"> Afficher </button> -->
+								 
+							</div>
+						</form>
+					</div>
+				 </div>
+	 </div>
+	
+	  
+
+	  
+ 
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
+          <h2 style="text-align:center" id="timerecept"></h2>
+		 <!-- rajouter ici autres élements -->
+		  <input id="pac-input" class="controls" type="text"
+			placeholder="Enter a location">
+			<div id="type-selector" class="controls">
+			<input type="radio" name="type" id="changetype-all" checked="checked">
+			<label for="changetype-all">All</label>
+			<input type="radio" name="type" id="changetype-establishment">
+			<label for="changetype-establishment">Establishments</label>
+			<input type="radio" name="type" id="changetype-address">
+			<label for="changetype-address">Addresses</label>
+			<input type="radio" name="type" id="changetype-geocode">
+			<label for="changetype-geocode">Geocodes</label>
+		    </div>
+          <div id="map" class="pull-right"></div>
+        </div>
+       </div>
+	   </div>
+	<div class="container ">
+	  <div class="row">
+	  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  padding margin-top-5 ">
+				 <div id="bloc-back2" class="bloc-back2 " >
+				    <div class="bloc-titre bloc-entet2 color-bleu text-center margin-bottom-10"> Niveau bennes  
+					      </div> <div  class="bloc-body " id="bloc-body">
+					      				<span id="mabenne"></span>
+						                <div class="row">
+										<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" >
+										<div id="chart-container" class="pull-left padding-20" style="width:80px; height:40px;"> 
+										</div>
+							            </div>			
+										</div>
+					               </div>	
+		        </div> 
+		        </div>
+	 </div>
+	 </div> 
+	 </div>
+	 
+	 </body>
+   <footer class="margin-top-5">
+   
+   </footer>
+	
+	
+	<!-- html fad -->
+	 
+      <!--/gmap_area -->
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+	<script src="js/stx.js"></script>
+	<script src="js/map.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="http://getbootstrap.com/assets/js/vendor/holder.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+   
+   <script>
+  
+
+
+
+
+</script>
+
+
+
+</body>
+
+</html>
