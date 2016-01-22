@@ -96,7 +96,7 @@
 			socket.on('message/'+id, function (data)
 			{
                 var obj = JSON.parse(data);
-				 FusionCharts("fuelMeter"+id).feedData("&value=" + obj.poid);
+				 FusionCharts("fuelMeter"+id).feedData("&value=" + (hauteurMax-obj.poid));
                 $("#numboiteaulettre").html(obj.id);
                 $("#timerecept").html("reçu à "+obj.heurerecepetion);
             });
