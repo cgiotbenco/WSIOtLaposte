@@ -34,7 +34,7 @@
               id: "gaugePoid",
               value: 0,
               min: 0,
-              max: 500,
+              max: 1000,
               title: "Poid",
               label: "grammes",
             });
@@ -49,13 +49,13 @@
 
 
             
-             var socket = io.connect('ws://127.0.0.1:8091/');
+            var socket = io.connect('ws://nodejs-laposteiot.rhcloud.com:8000/');
            // var socket = io.connect('ws://nodejs-laposteiot.rhcloud.com:8000/');
-            socket.on('message', function (data) {
+            socket.on('message/100001', function (data) {
                 var obj = JSON.parse(data);
                 console.log(obj);
                 g.refresh(obj.poid);
-                sb.refresh(obj.etatbatterie);
+              //  sb.refresh(obj.etatbatterie);
                 $("#numboiteaulettre").html(obj.id);
                 $("#timerecept").html("reçu à "+obj.heurerecepetion);
             });
