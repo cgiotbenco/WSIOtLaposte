@@ -254,3 +254,7 @@ font-weight: 500 !important;
 .no-padding-left{
 padding-left:0px !important;
 }
+
+svg{
+  padding-left:15%;
+}

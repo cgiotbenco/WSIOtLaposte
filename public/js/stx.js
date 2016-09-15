@@ -8,7 +8,7 @@
  
 		  socket = io.connect('ws://'+addressport+'/');
 		  getData();
-		   initsvg();
+		  initsvg();
 			   
         });
 		
@@ -50,7 +50,7 @@
         	}).render();
 
        //	arrayFusionChart.push(Fuel);
-     
+	   
 	   }
 
 
